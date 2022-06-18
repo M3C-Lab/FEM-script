@@ -1,24 +1,26 @@
 clear all; clc; % clean the memory
 
 % Define the physical problem
-kappa = 5.0;
+kappa = 1.0;
+vel   = 1.0;
 
-f = @(x) kappa * sin(x); % f = - kappa d2 exact / dx2
-exact = @(x) sin(x);
-g = @(x) exact(1);
-h = @(x) -kappa * cos(0);
+Pe = vel / kappa;
+
+f = @(x) 0; % f = - kappa d2 exact / dx2
+gL = 0.0;
+gR = 1.0;
 
 omega_l = 0.0; omega_r = 1.0; % physical domain
 
 % number of elements
-nElem = 16;
+nElem = 32;
 
 % quadrature rule
 nqp = 10;
 [qp, wq] = Gauss( nqp, -1, 1 );
 
 % polynomial (FEM basis function) degree
-pp = 6;
+pp = 1;
 
 nLocBas = pp + 1; % number of local basis, local means elemental.
 
@@ -36,6 +38,7 @@ hh = 1.0 / (pp*nElem);
 x_coor = omega_l : hh : omega_r;
 
 ID = 1 : nFunc;
+ID(1)   = -1;
 ID(end) = -1; % assign the ID for the Dirichlet node to be -1.
 
 % Start FEM assembly
@@ -70,8 +73,10 @@ for ee = 1 : nElem
             Na_xi = PolyBasis(pp, aa, 1, qp(qua));
             f_ele(aa) = f_ele(aa) + wq(qua) * f( x_qua ) * Na * dx_dxi;
             for bb = 1 : nLocBas
+                Nb     = PolyBasis(pp, bb, 0, qp(qua));
                 Nb_xi  = PolyBasis(pp, bb, 1, qp(qua));
-                k_ele(aa, bb) = k_ele(aa, bb) + wq(qua) * Na_xi * kappa * Nb_xi * dxi_dx;
+                k_ele(aa, bb) = k_ele(aa, bb) + wq(qua) * ( ...
+                    Na_xi * kappa * Nb_xi * dxi_dx - Na_xi * vel * Nb );
             end
         end
     end
@@ -87,19 +92,23 @@ for ee = 1 : nElem
                 K(AA, BB) = K(AA, BB) + k_ele(aa, bb);
             end
         else
-            K( IEN(aa,ee), IEN(aa,ee) ) = 1.0;
-            F( IEN(aa,ee) ) = g(1);
+            if ee == 1
+                K( IEN(aa,ee), IEN(aa,ee) ) = 1.0;
+                F( IEN(aa,ee) ) = gL;
+            else
+                K( IEN(aa,ee), IEN(aa,ee) ) = 1.0;
+                F( IEN(aa,ee) ) = gR;
+            end
         end
     end
 end
-
-F(1) = F(1) + h(0);
 
 % With the stiffness matrix K and the load vector F
 uu = K \ F;
 
 % calculate error
 error_l2 = 0.0;
+exact = @(x) (exp(Pe * x) - 1) / ( exp(Pe) - 1 );
 
 % new quadrature rule
 nqp = 10;
@@ -133,6 +142,6 @@ for ee = 1 : nElem
     end
 end
 
-error_l2 = sqrt(error_l2)
+error_l2 = sqrt(error_l2);
 
 % EOF
