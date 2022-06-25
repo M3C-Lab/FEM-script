@@ -13,9 +13,6 @@ exact = @(x) (exp(Pe * x) - 1) / (exp(Pe) - 1);
 gL = @(x) 0.0;
 gR = @(x) 1.0;
 
-
-
-
 % number of elements
 nElem = 16;
 
