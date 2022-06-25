@@ -46,8 +46,8 @@ ID(end) = -1; % assign the ID for the Dirichlet node to be -1.
 K = sparse( nFunc, nFunc );
 F = zeros(  nFunc, 1 );
 
-alpha = vel * hh / 2 / kappa;
-tau = hh / 2 / abs(vel) * (coth(alpha) - 1/alpha);
+alpha = vel /nElem / 2 / kappa;
+tau = 1 / nElem / 2 / abs(vel) * (coth(alpha) - 1/alpha);
 for ee = 1 : nElem
     k_ele = zeros( nLocBas, nLocBas );
     f_ele = zeros( nLocBas, 1 );
