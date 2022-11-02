@@ -1,0 +1,26 @@
+2022.10
+
+Summary of work:
+1. modify the paper manusrcipt and add the the introduction part
+2. implement the coding work of multipatch-EM version of elastodynamics
+3. did a perturbation research compared with existing methods
+4. made a presentation of the introduction of YAML file and Master-Slave BC 
+
+Literature review:
+1. chaos: 
+Sansour et al [1] applied a energy-momentum time scheme to study the chaotic motions of shells.
+The authors showed that the scheme could capture the character of chaos for nonlinear systems. But the author didn't
+distinguish between his method and other methods in chaos study.
+Xie et al [2] investigate the instability and chaos of the Newmark methods for nonliear dynamic equations. The author
+showed that improper choose of time steps and some initial parameters may lead to chaos in nonliear systems by using the
+Trapezoidal rule of Newmark method. The author then modified the scheme to be a energy conserving scheme, and no chaos occur
+again. 
+
+2. time schemes and incompressible elastodyanmics:
+The introduction part of the paper.
+
+
+Ref:
+[1] On the design of energy–momentum integration schemes for arbitrary continuum formulations. Applications to classical
+and chaotic motion of shells
+[2] Instability, chaos, and growth and decay of energy of time-stepping schmes for non-linear dynamic equations
