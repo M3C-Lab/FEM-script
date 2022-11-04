@@ -1,0 +1,16 @@
+October Monthly Learning Report
+
+Work Summary
+1. A framework that can automatically generate a local reference system has been designed and implemented: for any given vessel geometry, all points on the vessel wall can be matched to points on the vessel centerline, which in turn generates a local coordinate system including radial, axial and circumferential directions. The local reference system helps to define the fiber orientation on the vessel wall in the next step.
+
+2. I have learned the simulation process about using PERIGEE to simulate CFD and FSI. Vessel models of different sizes are generated and used as input for CFD and FSI numerical simulation experiments. Based on the output data, analysis of the flow and area variation information of specific cross-sections are performed and compared with the findings of previous papers.
+
+Literature Review
+1. Centerlines Extraction [1]:
+The main topic is explaining how to calculate the centerline of a tubular structure. The centerline is the line drawn from the two outermost sections of the tubular structure which locally maximizes the distance from the vessel boundary. There are several methods that have been presented for centerline extraction, but the one that is being described in this paper is based on distance transform and wavefront propagation.
+
+2. Relating surface points to centerlines [1]:
+This section is discussing a method of finding the distance from a surface point to a centerline, which can be useful for things like analyzing the surface morphology of an object. The method involves taking into account the orientation of the surface normals (the vectors perpendicular to the surface at each point). This makes the method more robust, meaning that it will give more accurate results.
+
+Ref:
+[1] Antiga L. Patient-Specific Modeling of Geometry and Blood Flow in Large Arteries.
